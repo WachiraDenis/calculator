@@ -1,0 +1,30 @@
+BEGIN
+
+    LOOP:
+        IF user is NOT logged in THEN
+            CALL Register()
+            GOTO LOOP   // return to login check
+        ELSE
+            PROCEED
+        END IF
+
+    CALL CreateSavingsAccount()
+
+    PROMPT user: "Track existing savings or set a new goal?"
+
+    IF choice == "Track" THEN
+        CALL TrackSavings()
+        CALL UpdateProgress()          // record deposits over time
+
+        IF deadlineApproaching == TRUE THEN
+            CALL NotifyUser()          // send reminder prompt
+        END IF
+
+        CALL ViewSummary()             // show total saved
+    ELSE IF choice == "New goal" THEN
+        CALL SetNewGoal()
+        CALL EnterTimespan(startDate, endDate)
+        CALL SetAmount(targetAmount)
+    END IF
+
+END
